@@ -92,7 +92,7 @@ function ViewTaxAmout() {
       }
     }
 
-    total = taxPayable + taxAmount['bracket6'] + taxAmount['bracket5'] + taxAmount['bracket4'] + taxAmount['bracket3'] + taxAmount['bracket2'] + taxAmount['bracket1']
+    total = taxAmount['bracket6'] + taxAmount['bracket5'] + taxAmount['bracket4'] + taxAmount['bracket3'] + taxAmount['bracket2'] + taxAmount['bracket1']
 
   }
 
