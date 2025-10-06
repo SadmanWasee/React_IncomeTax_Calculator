@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Input, 
   InputLabel, 
   InputAdornment, 
@@ -11,31 +11,45 @@ import { Input,
   FormLabel } 
   from '@mui/material'
 import { useState } from 'react'
+import { FormContext } from '../Context/AppContext'
 
 function Form(props) {
 
   const [category, setCategory] = useState('1')
+
+  const {form, setFormData} = useContext(FormContext)
 
   const handleSubmit = (formData) => {
 
     props.toggler.setToggle(true)
 
     const income = formData.get('income');
-    const isAnnualIncome = formData.get('incomeType');
+    const incomeType = formData.get('incomeType');
     const catagoryNo = formData.get('category')
+    const isNewTaxPayer = formData.get('isNewTaxPayer')
     let numberOfDisabledChildren = '0'
 
     if (catagoryNo == '6') {
       numberOfDisabledChildren = formData.get('noOfChildren')
     }
 
-    console.log(`${income} ${isAnnualIncome} ${catagoryNo} ${numberOfDisabledChildren}`)
+    console.log(`${income} ${incomeType} ${catagoryNo} ${numberOfDisabledChildren} ${isNewTaxPayer}`)
+
+    setFormData(prevData => {
+      return ({income:income,
+        incomeType:incomeType,
+        categoryNO:catagoryNo, 
+        isNewTaxPayer:isNewTaxPayer,
+        numberOfDisabledChildren: numberOfDisabledChildren})
+    })
+
 
   }
 
   return (
     <>
       <form action={handleSubmit}>
+
         <FormControl sx={{ width: '250px', m: 2 }} variant="standard">
           <InputLabel htmlFor="income">
             Income
@@ -52,6 +66,7 @@ function Form(props) {
             }
           />
         </FormControl>
+
         <FormControl sx={{ width: '150px', m: 2 }} variant='standard'>
           <InputLabel id="income_type">Income Type</InputLabel>
           <Select
@@ -66,6 +81,7 @@ function Form(props) {
             <MenuItem value={'1'}>Annual</MenuItem>
           </Select>
         </FormControl>
+
         <FormControl sx={{ width: '150px', m: 2 }} variant='standard'>
           <InputLabel id="category">Category</InputLabel>
           <Select
@@ -88,17 +104,19 @@ function Form(props) {
             <MenuItem value={'6'}>Parent of a Disabled Child</MenuItem>
           </Select>
         </FormControl>
+
         <div className='ps-3' >
           <FormControl>
             <FormLabel id="new_tax_payer_input">Are you a new tax payer ?</FormLabel>
             <RadioGroup
+              required
               row
               aria-labelledby="new_tax_payer_input"
               defaultValue="female"
-              name="radio-buttons-group"
+              name="isNewTaxPayer"
             >
-              <FormControlLabel value="Yes" control={<Radio />} label="Yes" />
-              <FormControlLabel value="No" control={<Radio />} label="No" />
+              <FormControlLabel value="0" control={<Radio />} label="Yes" />
+              <FormControlLabel value="1" control={<Radio />} label="No" />
             </RadioGroup>
           </FormControl>
           {category == '6' ? <FormControl sx={{ width: '150px', m: 2 }} variant='standard'>
@@ -118,8 +136,8 @@ function Form(props) {
               <MenuItem value={'5'}>5</MenuItem>
               <MenuItem value={'6'}>6</MenuItem>
             </Select>
-          </FormControl> :
-            null}
+          </FormControl> : null}
+
           <Button className='float-end'
             sx={{ m: 2 }}
             type='submit'
@@ -128,6 +146,7 @@ function Form(props) {
             Submit
           </Button>
         </div>
+
       </form>
     </>
   )

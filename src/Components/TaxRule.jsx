@@ -72,20 +72,18 @@ function TaxRule() {
             </table>
             <table>
                 <caption>Minimum tax for those who cross exemption limit</caption>
-                <thead>
+                <tr>
                     <th>Category</th>
                     <th>Minimum tax</th>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>First time tax payers</td>
-                        <td>1000TK</td>
-                    </tr>
-                    <tr>
-                        <td>Regular payers</td>
-                        <td>5000Tk</td>
-                    </tr>
-                </tbody>
+                </tr>
+                <tr>
+                    <td>First time tax payers</td>
+                    <td>1000TK</td>
+                </tr>
+                <tr>
+                    <td>Regular payers</td>
+                    <td>5000Tk</td>
+                </tr>
             </table>
         </div>
     )
