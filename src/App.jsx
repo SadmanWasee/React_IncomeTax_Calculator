@@ -1,9 +1,6 @@
-import { useState } from 'react'
 import { BrowserRouter } from 'react-router'
 import AppRoutes from './Components/AppRoutes'
 import Navbar from './Components/Navbar'
-
-
 
 function App() {
 

@@ -6,34 +6,39 @@ function TaxRule() {
             <h2>Get to know the rules at first!</h2>
             <table>
                 <caption>The latest tax rates:</caption>
-                <tr>
-                    <th>Annual Taxable Income (BDT)</th>
-                    <th>Tax Rate (%)</th>
-                </tr>
-                <tr>
-                    <td>Up to 375,000</td>
-                    <td>0%</td>
-                </tr>
-                <tr>
-                    <td>Next 300,000</td>
-                    <td>10%</td>
-                </tr>
-                <tr>
-                    <td>Next 400,000</td>
-                    <td>15%</td>
-                </tr>
-                <tr>
-                    <td>Next 500,000</td>
-                    <td>20%</td>
-                </tr>
-                <tr>
-                    <td>Next 2,000,000</td>
-                    <td>25%</td>
-                </tr>
-                <tr>
-                    <td>Above 3,575,000</td>
-                    <td>30%</td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Annual Taxable Income (BDT)</th>
+                        <th>Tax Rate (%)</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Up to 375,000</td>
+                        <td>0%</td>
+                    </tr>
+                    <tr>
+                        <td>Next 300,000</td>
+                        <td>10%</td>
+                    </tr>
+                    <tr>
+                        <td>Next 400,000</td>
+                        <td>15%</td>
+                    </tr>
+                    <tr>
+                        <td>Next 500,000</td>
+                        <td>20%</td>
+                    </tr>
+                    <tr>
+                        <td>Next 2,000,000</td>
+                        <td>25%</td>
+                    </tr>
+                    <tr>
+                        <td>Above 3,575,000</td>
+                        <td>30%</td>
+                    </tr>
+                </tbody>
             </table>
             <table>
                 <caption>Tax Exemption Limits (Bangladesh)</caption>
@@ -72,18 +77,22 @@ function TaxRule() {
             </table>
             <table>
                 <caption>Minimum tax for those who cross exemption limit</caption>
-                <tr>
-                    <th>Category</th>
-                    <th>Minimum tax</th>
-                </tr>
-                <tr>
-                    <td>First time tax payers</td>
-                    <td>1000TK</td>
-                </tr>
-                <tr>
-                    <td>Regular payers</td>
-                    <td>5000Tk</td>
-                </tr>
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Minimum tax</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>First time tax payers</td>
+                        <td>1000TK</td>
+                    </tr>
+                    <tr>
+                        <td>Regular payers</td>
+                        <td>5000Tk</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     )

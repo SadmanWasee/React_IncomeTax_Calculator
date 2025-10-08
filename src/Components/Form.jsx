@@ -1,49 +1,57 @@
 import React, { useContext, useEffect } from 'react'
-import { Input, 
-  InputLabel, 
-  InputAdornment, 
-  FormControl, Select, 
-  MenuItem, 
-  Button, 
-  RadioGroup, 
-  FormControlLabel, 
-  Radio, 
-  FormLabel } 
+import {
+  Input,
+  InputLabel,
+  InputAdornment,
+  FormControl, Select,
+  MenuItem,
+  Button,
+  RadioGroup,
+  FormControlLabel,
+  Radio,
+  FormLabel
+}
   from '@mui/material'
 import { useState } from 'react'
 import { FormContext } from '../Context/AppContext'
+import { categories } from '../Utils/AppUtils'
+
+
 
 function Form(props) {
 
-  const [category, setCategory] = useState('1')
+  const [category, setCategory] = useState('generalTaxPayers')
 
-  const {form, setFormData} = useContext(FormContext)
+  const { form, setFormData } = useContext(FormContext)
+  const menuItemsList = []
 
+  for (let i in categories) {
+    menuItemsList.push(<MenuItem value={i}>{categories[i]}</MenuItem>)
+  }
   const handleSubmit = (formData) => {
 
     props.toggler.setToggle(true)
 
-    const income = formData.get('income');
+    const income = parseFloat(formData.get('income'));
     const incomeType = formData.get('incomeType');
-    const catagoryNo = formData.get('category')
-    const isNewTaxPayer = formData.get('isNewTaxPayer')
-    let numberOfDisabledChildren = '0'
+    const category = formData.get('category')
+    const isNewTaxPayer = formData.get('isNewTaxPayer') === "1"
 
-    if (catagoryNo == '6') {
-      numberOfDisabledChildren = formData.get('noOfChildren')
+    let numberOfDisabledChildren = 0
+
+    if (category == 'parentOfADisabledChild') {
+      numberOfDisabledChildren = Number(formData.get('numberOfChildren'))
     }
 
-    console.log(`${income} ${incomeType} ${catagoryNo} ${numberOfDisabledChildren} ${isNewTaxPayer}`)
-
-    setFormData(prevData => {
-      return ({income:income,
-        incomeType:incomeType,
-        categoryNO:catagoryNo, 
-        isNewTaxPayer:isNewTaxPayer,
-        numberOfDisabledChildren: numberOfDisabledChildren})
+    setFormData(() => {
+      return ({
+        income,
+        incomeType,
+        category,
+        isNewTaxPayer,
+        numberOfDisabledChildren
+      })
     })
-
-
   }
 
   return (
@@ -90,18 +98,13 @@ function Form(props) {
             id="category"
             name='category'
             label="Category"
-            defaultValue={'1'}
+            defaultValue={'generalTaxPayers'}
             value={category}
             onChange={e => {
               setCategory(e.target.value)
             }}
           >
-            <MenuItem value={'1'}>General taxpayers</MenuItem>
-            <MenuItem value={'2'}>Women & Senior Citizens (65+)</MenuItem>
-            <MenuItem value={'3'}>People with Disabilities</MenuItem>
-            <MenuItem value={'4'}>Third-Gender Individuals</MenuItem>
-            <MenuItem value={'5'}>War-wounded Freedom Fighters</MenuItem>
-            <MenuItem value={'6'}>Parent of a Disabled Child</MenuItem>
+            {menuItemsList}
           </Select>
         </FormControl>
 
@@ -119,24 +122,20 @@ function Form(props) {
               <FormControlLabel value="1" control={<Radio />} label="No" />
             </RadioGroup>
           </FormControl>
-          {category == '6' ? <FormControl sx={{ width: '150px', m: 2 }} variant='standard'>
-            <InputLabel id="no_of_children">No. of Children</InputLabel>
-            <Select
-              required
-              labelId="no_of_children"
-              id="no_of_children"
-              name='noOfChildren'
-              label="no_of_children"
-              defaultValue={'1'}
-            >
-              <MenuItem value={'1'}>1</MenuItem>
-              <MenuItem value={'2'}>2</MenuItem>
-              <MenuItem value={'3'}>3</MenuItem>
-              <MenuItem value={'4'}>4</MenuItem>
-              <MenuItem value={'5'}>5</MenuItem>
-              <MenuItem value={'6'}>6</MenuItem>
-            </Select>
-          </FormControl> : null}
+          {category == 'parentOfADisabledChild' ?
+            <>
+              <FormControl sx={{ width: '150px', m: 2 }} variant="standard">
+                <InputLabel htmlFor="no_of_children">
+                  Number of Children
+                </InputLabel>
+                <Input
+                  id="no_of_children"
+                  type='number'
+                  name='numberOfChildren'
+                  required
+                />
+              </FormControl>
+            </> : null}
 
           <Button className='float-end'
             sx={{ m: 2 }}
