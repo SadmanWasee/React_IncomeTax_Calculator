@@ -14,7 +14,7 @@ import {
   from '@mui/material'
 import { useState } from 'react'
 import { FormContext } from '../Context/AppContext'
-import { categories } from '../Utils/AppUtils'
+import { categories } from '../Utils/data'
 
 
 
@@ -58,7 +58,7 @@ function Form(props) {
     <>
       <form action={handleSubmit}>
 
-        <FormControl sx={{ width: '250px', m: 2 }} variant="standard">
+        <FormControl sx={{ width: '250px', m: 2 }} variant="filled">
           <InputLabel htmlFor="income">
             Income
           </InputLabel>
@@ -109,7 +109,7 @@ function Form(props) {
         </FormControl>
 
         <div className='ps-3' >
-          <FormControl>
+          <FormControl className='pt-3'>
             <FormLabel id="new_tax_payer_input">Are you a new tax payer ?</FormLabel>
             <RadioGroup
               required

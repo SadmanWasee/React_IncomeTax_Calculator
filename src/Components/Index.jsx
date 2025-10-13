@@ -2,10 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { FormContext } from '../Context/AppContext';
 import Form from './Form';
 import ViewTaxAmount from './ViewTaxAmount';
+import { TaxContext } from '../Context/AppContext';
+import TaxRebateCalculatorForm from './TaxRebateCalculatorForm';
 
 function Index() {
 
   const [isShowTaxAmount, setIsShowTaxAmount] = useState(false);
+  const [isShowRebate, setIsShowRebate] = useState(false)
   const [form, setFormData] = useState({
     income: 0,
     incomeType: "1",
@@ -13,10 +16,7 @@ function Index() {
     isNewTaxPayer: null,
     numberOfDisabledChildren: null
   })
-
-  useEffect(() => {
-    console.log(form)
-  }, [form])
+  const [totalTax, setTotalTax] = useState(0);
 
   return (
     <>
@@ -35,9 +35,17 @@ function Index() {
               setToggle: setIsShowTaxAmount
             }}
           />
-          {isShowTaxAmount ? <ViewTaxAmount /> : ""}
+          <TaxContext.Provider value={{
+            totalTax,
+            setTotalTax,
+          }}>
+            {isShowTaxAmount ? <>
+              <ViewTaxAmount />
+              <TaxRebateCalculatorForm
+              /> 
+            </> : null}
+          </TaxContext.Provider>
         </FormContext.Provider>
-
       </div>
     </>
   )

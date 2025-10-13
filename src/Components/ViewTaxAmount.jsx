@@ -1,14 +1,17 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { FormContext } from '../Context/AppContext'
-import { categories, taxBrackets, taxExemptionLimit} from '../Utils/AppUtils';
+import { categories, taxBrackets, taxExemptionLimit } from '../Utils/data'
+import { TaxContext } from '../Context/AppContext';
 
 
 function ViewTaxAmount() {
 
   const { form, setFormData } = useContext(FormContext);
+  const { totalTax, setTotalTax } = useContext(TaxContext);
   let annualIncome = 0;
   let total = 0;
-  let taxPayable = 0;
+
+  let [taxPayable, setTaxPayable] = useState(0);
 
   if (form.incomeType == "0") {
     let income = form.income * 12
@@ -17,11 +20,14 @@ function ViewTaxAmount() {
     annualIncome = form.income
   }
 
-  if (form.isNewTaxPayer == "0") {
-    taxPayable = 1000
-  } else {
-    taxPayable = 5000
-  }
+  useEffect(() => {
+    if (form.isNewTaxPayer == "0") {
+      setTaxPayable(1000)
+    } else {
+      setTaxPayable(5000)
+    }
+  })
+
 
 
   if (form.category == "parentOfADisabledChild") {
@@ -30,7 +36,7 @@ function ViewTaxAmount() {
 
 
 
-  const calculateTax = (annualIncome, taxExemption, taxBrackets) => {
+  const calculateTax = (annualIncome, taxExemption) => {
 
     let incomeLeft = annualIncome;
 
@@ -45,46 +51,62 @@ function ViewTaxAmount() {
           continue;
         }
 
-        if (i === taxBrackets.length - 1) {
-          taxBrackets[i].tax = incomeLeft * taxBrackets[i].rate
-          incomeLeft = 0;
+        if (incomeLeft > taxBrackets[i].limit) {
+          taxBrackets[i].tax = taxBrackets[i].limit * taxBrackets[i].rate
+          total += taxBrackets[i].tax
+          incomeLeft = incomeLeft - taxBrackets[i].limit
         } else {
-          if (incomeLeft > taxBrackets[i].limit) {
-            taxBrackets[i].tax = taxBrackets[i].limit * taxBrackets[i].rate
-            incomeLeft = incomeLeft - taxBrackets[i].limit
-          } else {
-            taxBrackets[i].tax = incomeLeft * taxBrackets[i].rate
-            incomeLeft = 0
-          }
-        }
-
-        if (incomeLeft <= 0) {
+          taxBrackets[i].tax = incomeLeft * taxBrackets[i].rate
+          total += taxBrackets[i].tax
+          incomeLeft = 0
           break;
         }
 
       }
 
-      for (let i = 0; i < loopCount; i++) {
-        total += taxBrackets[i].tax
-      }
-
+    }
+    if(total > taxPayable){
+      setTotalTax(total)
+    }
+    else{
+      setTotalTax(taxPayable)
     }
 
   }
 
-  calculateTax(annualIncome, taxExemptionLimit[form.category], taxBrackets)
+
+  calculateTax(annualIncome, taxExemptionLimit[form.category])
+
 
   return (
     <>
-      <div className='w-100 pt-5 text-center'>
-        <h2>Tax Details</h2>
-        <div className='text-start pt-5'>
-          <p>Income: {annualIncome} BDT</p>
-          <p>Category: {categories[form.category]}</p>
-          <p>Tax Exemption Limit: {taxExemptionLimit[form.category]} BDT</p>
+      <h2 className='text-center pt-5'>Tax Details</h2>
+      <div className='w-100 pt-5 px-5 row '>
+        <div className='col-6'>
+          <table className='w-75'>
+            <thead>
+              <tr>
+                <th className='text-center' colSpan='2'>Tax Exemption based on category</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Income:</th>
+                <td>{annualIncome}</td>
+              </tr>
+              <tr>
+                <th>Category:</th>
+                <td>{categories[form.category]}</td>
+              </tr>
+              <tr>
+                <th>Tax Exemption Limit:</th>
+                <td>{taxExemptionLimit[form.category]}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div className="d-flex flex-column w-100 align-items-center">
-          <table className='text-start'>
+        <div className="col-6">
+          <table className='text-start w-100'>
             <thead>
               <tr>
                 <th>Annual Taxable Income (BDT)</th>
@@ -129,7 +151,7 @@ function ViewTaxAmount() {
               </tr>
               <tr>
                 <td colSpan='2'>Total tax in BDT: </td>
-                <td>{total}</td>
+                <td>{totalTax}</td>
               </tr>
             </tbody>
           </table>

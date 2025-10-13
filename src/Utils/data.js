@@ -13,10 +13,10 @@ export let taxBrackets = [
     { id: 3, limit: 400000, rate: 0.15, tax: 0 },
     { id: 4, limit: 500000, rate: 0.20, tax: 0 },
     { id: 5, limit: 2000000, rate: 0.25, tax: 0 },
-    { id: 6, limit: 3575000, rate: 0.30, tax: 0 }
+    { id: 6, limit: Number.MAX_SAFE_INTEGER, rate: 0.30, tax: 0 }
 ]
 
-let taxExemptionLimit = {
+export let taxExemptionLimit = {
     "generalTaxPayers": 375000,
     "women&seniorCitizens": 425000,
     "peopleWithDisabilities": 500000,
