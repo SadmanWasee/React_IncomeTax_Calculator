@@ -9,10 +9,6 @@
 
 [![rules.png](https://i.postimg.cc/NMvrNsMS/rules.png)](https://postimg.cc/2qT6yfn7)
 
-<p>After filling up the form user can press submit button to generate the tax details</p>
-
-[![rules.png](https://i.postimg.cc/NMvrNsMS/rules.png)](https://postimg.cc/2qT6yfn7)
-
 <p>The tax details being presented in tables</p>
 
 [![tax-Details.png](https://i.postimg.cc/W3cJ9NzL/tax-Details.png)](https://postimg.cc/yJndxz0v)
